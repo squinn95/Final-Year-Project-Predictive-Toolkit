@@ -49,7 +49,7 @@ public class KNN{
 		HashMap<ArrayList<Double>,Double> resultsMap = new HashMap<>(); // this will hold (row, predictedClass) prediction pairs.
 		Iterator<ArrayList<Double>> iter6 = validationSet.iterator();
 		
-		int o =0;
+		//int o =0;
 		while (iter6.hasNext()) { // classify validation set one by one using knn and add to resultsMap
 		
 			int currentK = k;
@@ -68,63 +68,39 @@ public class KNN{
 			}
 			
 			Double classValue = getMaxClass(classCounts);
+			/*
 			if(o == 50){
 				for(Double a: classCounts.keySet())
 					System.out.println(a + ": " + classCounts.get(a));
 				System.out.println(classValue);
 			}
-			
+			*/
 			resultsMap.put(current, classValue);
 			//assign resulting class
 			
-				
-			
-			o++;
+			//o++;
 				
 		}
-			/*
-			 
 			
-			
-			
-			
-			if (!isOneMax(classCount)) { // in the event of 2 way tie(2,2,1) - increase to 6 nearest neighbours
-				Map.Entry<Double,Double> a = distanceMap.pollFirstEntry();
-				classCount[Integer.valueOf(a.getValue().intValue())]++;
-				// System.out.print("(" + a.getKey() + "," + a.getValue() + ") ");
-				if (!isOneMax(classCount)) { // in the event of 3 way tie(2,2,2) - increase to 7 nearest neighbours
-					Map.Entry<Double,Double> b = distanceMap.pollFirstEntry();
-					classCount[Integer.valueOf(b.getValue().intValue())]++;
-					// System.out.print("(" + b.getKey() + "," + b.getValue() + ") ");
-				}
-			} // there is now definately only one max
-			// System.out.println();
-				
-			if ((classCount[1] > classCount[2]) && (classCount[1] > classCount[3]))
-				resultsMap.put(current, 1.0);
-			else if ((classCount[2] > classCount[1]) && (classCount[2] > classCount[3]))
-				resultsMap.put(current, 2.0);
-			else 
-				resultsMap.put(current, 3.0);
-		}
-		
-		// next step is check success rate, compa
-		re prediction with actual
+		// next step is check success rate, compare prediction with actual
+		DecimalFormat df = new DecimalFormat("#.####");
 		double rightCount = 0;
 		int g = 0;
 		Iterator it = resultsMap.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry prediction = (Map.Entry)it.next();
 			// System.out.println("Actual: " + ((ArrayList<Double>)prediction.getKey()).get(33) + " Predicted: " + prediction.getValue());
-			if ((((ArrayList<Double>)prediction.getKey()).get(33)).equals(prediction.getValue()))				// if predicted class = real class
+			ArrayList<Double> t = (ArrayList<Double>)prediction.getKey();
+			System.out.print("(" + t.get(t.size()-1) + "," + prediction.getValue() +"): ");
+			if ((t.get(t.size()-1)).equals(prediction.getValue()))				// if predicted class = real class
 				rightCount++;
 			g++;
 		}
-		double success = Double.parseDouble(df.format((rightCount/195)*100)); // percentage success rounded to 4 places
-		System.out.println(rightCount + " predictions out of 195 correct");
+		double success = Double.parseDouble(df.format((rightCount/g)*100)); // percentage success rounded to 4 places
+		System.out.println(rightCount + " predictions out of " + g + " correct");
 		System.out.println(success + "% of predictions correct");
 		// System.out.println("total " + g);
-		*/
+	
 	}
 	
 	private static HashMap<Double, Double> getClassCounts(TreeMap<Double,ArrayList<Double>> neighbourMap){
@@ -248,7 +224,7 @@ public class KNN{
 		//KNN z = new KNN("student-mat-normalised.csv", true, true, 33, 32, new int[]{5,10,15});
 		ArrayList<ArrayList<Double>> trainSet = CommonMethods.readDatasetFile("student-mat-normalised.csv", true);
 		ArrayList<ArrayList<Double>> trainColumns = CommonMethods.createColumnStructure(trainSet);
-		trainColumns = CommonMethods.trimColumns(trainColumns, new int[]{3,5,7,16,22,28}, 32);
+		trainColumns = CommonMethods.trimColumns(trainColumns, new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29}, 32);
 		trainSet = CommonMethods.createRowStructure(trainColumns);
 		trainSet = CommonMethods.normaliseDataset(trainSet, trainColumns);
 		trainSet = CommonMethods.classifyDataset(trainSet, new int[]{5,10,15});
