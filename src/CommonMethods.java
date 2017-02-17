@@ -112,9 +112,8 @@ public class CommonMethods{
 		*/
 	}
 	
-	protected static ArrayList<ArrayList<Double>> classifyDataset(ArrayList<ArrayList<Double>> dataset, int [] splitPoints) { // this sets up classes in training set, adds new column, if needed for continuous sets
+	protected static ArrayList<ArrayList<Double>> classifyDataset(ArrayList<ArrayList<Double>> dataset, int [] splitPoints) { // this sets up classes in training set, replacing continuous value with class
 		if(splitPoints.length > 0){
-			//ArrayList<ArrayList<Double>> newDataset = (ArrayList<ArrayList<Double>>)dataset.clone();
 			ArrayList<ArrayList<Double>> newDataset = new ArrayList<ArrayList<Double>>(dataset);
 			Iterator<ArrayList<Double>> iter4 = newDataset.iterator();
 			while (iter4.hasNext()) { // loop through rows
@@ -126,6 +125,7 @@ public class CommonMethods{
 				for(int i = 0; i < splitPoints.length; i++){
 					if(value < splitPoints[i]){
 						//class = classCount
+						current.remove(current.size() -1); //replace last element with class
 						current.add(new Double(classCount));
 						assigned = true;
 						break loop;
@@ -134,10 +134,12 @@ public class CommonMethods{
 				}
 				if(assigned == false){
 					//class = classCount
+					current.remove(current.size() -1); 
 					current.add(new Double(classCount));
 					assigned = true;
 				}
 				//System.out.println(value + ": " + classCount );
+				//System.out.println(current);
 			}
 			return newDataset;
 		}
