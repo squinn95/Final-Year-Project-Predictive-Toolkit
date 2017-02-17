@@ -5,46 +5,41 @@ import java.text.DecimalFormat;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class KNN{
-
-	/*
-	private ArrayList<ArrayList<Double>> trainSet;
-	private ArrayList<ArrayList<Double>> trainColumns;	// needed to normalise values & calculate weightings
-	//private static double [] euclideanWeighting;
-	private static DecimalFormat df; // limits to 4 decimal places
-	private String path;        //API input value
-	private Boolean headings;//API input value
-	private int numColumns;//API input value
-	private ArrayList<Integer> columnsToUse;//API input value
-	private int predictionColumn;//API input value
-	private int [] splitPoints; //API input value - a list of splitPoint values in ascending order, eg, (7,14), for continuous values or just [] for dicrete
-
-	public KNN(String path, boolean partitionTrainSet, Boolean headings, int numColumns, int predictionColumn, int [] splitPoints) {
-		this.path = path;/////
-		this.headings = headings;
-		this.numColumns = numColumns; 
-		this.predictionColumn = predictionColumn;
-		this.splitPoints = splitPoints;
-		trainSet = new ArrayList<>();
-		trainColumns = new ArrayList<>();
-		df = new DecimalFormat("#.####"); // limits decimals to 4 decimal places
+	
+	private static void predictClassKNN(boolean partitionTrainSet, String trainSetPath, String validationSetPath, boolean headings, int [] columnsToUse, int predictionColumn, int [] splitPoints, int k, String formula ) {
 		
-		for (int i = 0; i < numColumns; i++ ) { // this just instantiates the blank arraylists in columns so that readDataset works
-			ArrayList<Double> x = new ArrayList<>();
-			columns.add(x);
-		}
-		
-	}
-	*/
-	
-	//////////////////////////////////////////////////////////////
-	
-	private static void predictClassKNN(boolean partitionTrainSet, ArrayList<ArrayList<Double>> trainSet, ArrayList<ArrayList<Double>> validationSet, int k ) {
-	
+		// read train
+		ArrayList<ArrayList<Double>> trainSet = CommonMethods.readDatasetFile(trainSetPath, headings);
+		ArrayList<ArrayList<Double>> validationSet;
+		//split train set into two if needed
 		if(partitionTrainSet){
 			Pair<ArrayList<ArrayList<Double>>,ArrayList<ArrayList<Double>>> splits = CommonMethods.randomlyHalfSet(trainSet);
 			trainSet = splits.getFirst();
 			validationSet = splits.getSecond();
 		}
+		else{
+			validationSet = CommonMethods.readDatasetFile(validationSetPath, headings);
+		}
+		
+		//create column structure
+		ArrayList<ArrayList<Double>> trainColumns = CommonMethods.createColumnStructure(trainSet);
+		ArrayList<ArrayList<Double>> validationColumns = CommonMethods.createColumnStructure(validationSet);
+		
+		//trim columns which wont be used
+		trainColumns = CommonMethods.trimColumns(trainColumns, columnsToUse, predictionColumn);
+		validationColumns = CommonMethods.trimColumns(validationColumns, columnsToUse, predictionColumn);
+		
+		//convert trimmed columns back to row structure
+		trainSet = CommonMethods.createRowStructure(trainColumns);
+		validationSet = CommonMethods.createRowStructure(validationColumns);
+		
+		//normalise set
+		trainSet = CommonMethods.normaliseDataset(trainSet, trainColumns);
+		validationSet = CommonMethods.normaliseDataset(validationSet, validationColumns);
+		
+		//split classification column into sets if needed, for continuous variables
+		trainSet = CommonMethods.classifyDataset(trainSet, splitPoints);
+		validationSet = CommonMethods.classifyDataset(validationSet, splitPoints);
 		
 		HashMap<ArrayList<Double>,Double> resultsMap = new HashMap<>(); // this will hold (row, predictedClass) prediction pairs.
 		Iterator<ArrayList<Double>> iter6 = validationSet.iterator();
@@ -55,7 +50,7 @@ public class KNN{
 			int currentK = k;
 			ArrayList<Double> current = iter6.next(); // current validation row
 			
-			TreeMap<Double,ArrayList<Double>> distanceMap = genDistanceMap(current, trainSet);
+			TreeMap<Double,ArrayList<Double>> distanceMap = genDistanceMap(current, trainSet, formula);
 			
 			TreeMap<Double,ArrayList<Double>> neighbourMap = getKClosest(distanceMap, currentK);
 			
@@ -91,14 +86,14 @@ public class KNN{
 			Map.Entry prediction = (Map.Entry)it.next();
 			// System.out.println("Actual: " + ((ArrayList<Double>)prediction.getKey()).get(33) + " Predicted: " + prediction.getValue());
 			ArrayList<Double> t = (ArrayList<Double>)prediction.getKey();
-			System.out.print("(" + t.get(t.size()-1) + "," + prediction.getValue() +"): ");
+			//System.out.print("(" + t.get(t.size()-1) + "," + prediction.getValue() +"): ");
 			if ((t.get(t.size()-1)).equals(prediction.getValue()))				// if predicted class = real class
 				rightCount++;
 			g++;
 		}
 		double success = Double.parseDouble(df.format((rightCount/g)*100)); // percentage success rounded to 4 places
 		System.out.println(rightCount + " predictions out of " + g + " correct");
-		System.out.println(success + "% of predictions correct");
+		System.out.println("K nearest neighbours classifier built with " + success + "% accuracy");
 		// System.out.println("total " + g);
 	
 	}
@@ -121,14 +116,31 @@ public class KNN{
 		return classCounts;
 	}
 	
-	private static double weightedEuclideanDistance(ArrayList<Double> a, ArrayList<Double> b){ 
+	private static double euclideanDistance(ArrayList<Double> a, ArrayList<Double> b){ 
 		DecimalFormat df = new DecimalFormat("#.####");
 		double total = 0;
-		for(int i = 0; i < a.size() -2; i++){  /////////////////////////////this needs to be fixed, at what stage in the program will partition take place? not in this method, needs to happen at start
+		for(int i = 0; i < a.size() - 1; i++){
 			double difference = (a.get(i) - b.get(i));
-			total += (1 * difference * difference); //replace 1 with weighting scheme
+			total += (difference * difference); //replace 1 with weighting scheme
 		}
 		return Double.parseDouble(df.format(Math.sqrt(total)));
+	}
+	
+	private static double manhattanDistance(ArrayList<Double> a, ArrayList<Double> b){ 
+		DecimalFormat df = new DecimalFormat("#.####");
+		double total = 0;
+		for(int i = 0; i < a.size() - 1; i++){
+			double difference = (a.get(i) - b.get(i));
+			total += Math.abs(difference); 
+		}
+		return total;
+	}
+	
+	private static double calcDistance(ArrayList<Double> a, ArrayList<Double> b, String formula){
+			if(formula.equals("manhattan"))
+				return manhattanDistance(a, b);
+			else
+				return euclideanDistance(a, b);
 	}
 	
 	private static ArrayList<Double> getNRandomListDoubles(ArrayList<Double> inputList, int n){
@@ -164,13 +176,13 @@ public class KNN{
 		return neighbourMap;
 	}
 	
-	private static TreeMap<Double,ArrayList<Double>> genDistanceMap(ArrayList<Double> valRow, ArrayList<ArrayList<Double>> trainSet) {
+	private static TreeMap<Double,ArrayList<Double>> genDistanceMap(ArrayList<Double> valRow, ArrayList<ArrayList<Double>> trainSet, String formula) {
 		TreeMap<Double,ArrayList<Double>> distanceMap = new TreeMap<Double,ArrayList<Double>>(); // this will hold (dist, classes) pairs. TreeMap keeps them in sorted order - can use pollFirstEntry
 		Iterator<ArrayList<Double>> iter7 = trainSet.iterator(); // calculate distance from this to each row in training set
 		while (iter7.hasNext()) {
 			ArrayList<Double> trainRow = iter7.next();
 				
-			double dist = weightedEuclideanDistance(valRow, trainRow);
+			double dist = calcDistance(valRow, trainRow, formula);
 			if(distanceMap.containsKey(dist)){
 				ArrayList<Double> t = distanceMap.get(dist);
 				t.add(trainRow.get(trainRow.size() -1));
@@ -221,15 +233,8 @@ public class KNN{
 	
 
 	public static void main(String [] args) {
-		//KNN z = new KNN("student-mat-normalised.csv", true, true, 33, 32, new int[]{5,10,15});
-		ArrayList<ArrayList<Double>> trainSet = CommonMethods.readDatasetFile("student-mat-normalised.csv", true);
-		ArrayList<ArrayList<Double>> trainColumns = CommonMethods.createColumnStructure(trainSet);
-		trainColumns = CommonMethods.trimColumns(trainColumns, new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29}, 32);
-		trainSet = CommonMethods.createRowStructure(trainColumns);
-		trainSet = CommonMethods.normaliseDataset(trainSet, trainColumns);
-		trainSet = CommonMethods.classifyDataset(trainSet, new int[]{5,10,15});
-		trainColumns = CommonMethods.createColumnStructure(trainSet);
-		predictClassKNN(true, trainSet, null, 5);
+	
+		predictClassKNN(true, "student-mat-normalised.csv", null, true, new int[]{1,2,3,4,5,6,7,8,9,10,11,17,18,19,20,21,25,26,27,28,29},32, new int[]{7,14}, 5, "euclidean");
 		
 		
 	}
