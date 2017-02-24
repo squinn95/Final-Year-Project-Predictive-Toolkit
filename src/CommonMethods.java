@@ -181,6 +181,10 @@ public class CommonMethods{
 		return output;
 	}
 	
+	static boolean equalsDouble(Double a, Double b){
+		return (Double.doubleToLongBits(a) == Double.doubleToLongBits(b));
+	}
+	
 }
 
 
