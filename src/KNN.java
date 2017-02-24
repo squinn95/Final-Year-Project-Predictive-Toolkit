@@ -41,10 +41,10 @@ public class KNN{
 		trainSet = CommonMethods.classifyDataset(trainSet, splitPoints);
 		validationSet = CommonMethods.classifyDataset(validationSet, splitPoints);
 		
-		HashMap<ArrayList<Double>,Double> resultsMap = new HashMap<>(); // this will hold (row, predictedClass) prediction pairs.
 		Iterator<ArrayList<Double>> iter6 = validationSet.iterator();
 		
-		//int o =0;
+		double rightCount = 0;
+		int g = 0;
 		while (iter6.hasNext()) { // classify validation set one by one using knn and add to resultsMap
 		
 			int currentK = k;
@@ -70,27 +70,15 @@ public class KNN{
 				System.out.println(classValue);
 			}
 			*/
-			resultsMap.put(current, classValue);
-			//assign resulting class
 			
-			//o++;
-				
-		}
-			
-		// next step is check success rate, compare prediction with actual
-		DecimalFormat df = new DecimalFormat("#.####");
-		double rightCount = 0;
-		int g = 0;
-		Iterator it = resultsMap.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry prediction = (Map.Entry)it.next();
-			// System.out.println("Actual: " + ((ArrayList<Double>)prediction.getKey()).get(33) + " Predicted: " + prediction.getValue());
-			ArrayList<Double> t = (ArrayList<Double>)prediction.getKey();
-			//System.out.print("(" + t.get(t.size()-1) + "," + prediction.getValue() +"): ");
-			if ((t.get(t.size()-1)).equals(prediction.getValue()))				// if predicted class = real class
+			if(CommonMethods.equalsDouble(current.get(current.size()-1),classValue))
 				rightCount++;
+
 			g++;
+			
 		}
+		
+		DecimalFormat df = new DecimalFormat("#.####");
 		double success = Double.parseDouble(df.format((rightCount/g)*100)); // percentage success rounded to 4 places
 		System.out.println(rightCount + " predictions out of " + g + " correct");
 		System.out.println("K nearest neighbours classifier built with " + success + "% accuracy");
@@ -234,8 +222,8 @@ public class KNN{
 
 	public static void main(String [] args) {
 	
-		predictClassKNN(true, "student-mat-normalised.csv", null, true, new int[]{1,2,3,4,5,6,7,8,9,10,11,17,18,19,20,21,25,26,27,28,29},32, new int[]{7,14}, 5, "euclidean");
-		
+		predictClassKNN(true, "student-mat-normalised.csv", null, true, new int[]{5,7,8,9,10,11,12,13,14,15,16,28},32, new int[]{7,14}, 5, "euclidean");
+		//{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29}
 		
 	}
 	
