@@ -65,7 +65,7 @@ public class Bayes{
 				for(int i = 0; i < currentRow.size()-1; i++){ //each conditional prob
 					Double compValue = currentRow.get(i);
 					ArrayList<Double> classDimensionColumn = classColumnSet.get(i);
-					double count = (double)getColumnCount(classDimensionColumn, compValue);
+					double count = (double)CommonMethods.getColumnCount(classDimensionColumn, compValue);
 					double conditionalProb = (count/classSize);
 					prob *= conditionalProb;
 				}
@@ -122,15 +122,7 @@ public class Bayes{
 		return indexMap;
 	}
 	
-	static int getColumnCount(ArrayList<Double> list, Double value){
-		int count = 0;
-		for(Double d: list){
-				if(CommonMethods.equalsDouble(d,value)){
-					count++;
-				}
-		}
-		return count;
-	}
+	
 	
 	
 	private static Double getMaxProb(HashMap<Double,Double> probCounts){
@@ -148,7 +140,9 @@ public class Bayes{
 	
 	public static void main(String [] args) {
 	
-		predictClassBayes(true, "student-mat-normalised.csv", null, true, new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18},32, new int[]{7,14});
+		//predictClassBayes(true, "student-mat-normalised.csv", null, true, new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18},32, new int[]{7,14});
+		predictClassBayes(true, "IrisNumerical.csv", null, true, new int[]{1,2,3,4},5, null);
+		//predictClassBayes(true, "CarDataNumerical.csv", null, true, new int[]{0,1,2,3,4,5},6, null);
 		
 		
 	}
