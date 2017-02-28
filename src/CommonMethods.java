@@ -113,7 +113,7 @@ public class CommonMethods{
 	}
 	
 	protected static ArrayList<ArrayList<Double>> classifyDataset(ArrayList<ArrayList<Double>> dataset, int [] splitPoints) { // this sets up classes in training set, replacing continuous value with class
-		if(splitPoints.length > 0){
+		if((splitPoints != null) && (splitPoints.length > 0)){
 			ArrayList<ArrayList<Double>> newDataset = new ArrayList<ArrayList<Double>>(dataset);
 			Iterator<ArrayList<Double>> iter4 = newDataset.iterator();
 			while (iter4.hasNext()) { // loop through rows
@@ -172,10 +172,10 @@ public class CommonMethods{
         int rnd;
 		while (iter5.hasNext()) { // loop through rows
 			rnd = ThreadLocalRandom.current().nextInt(1, 11);
-			if (rnd <= 5)
-				trainingSet.add(iter5.next()); // 200 rows
+			if (rnd <= 8)
+				trainingSet.add(iter5.next()); 
 			else
-				validationSet.add(iter5.next());// 195
+				validationSet.add(iter5.next());
 		}
 		Pair<ArrayList<ArrayList<Double>>,ArrayList<ArrayList<Double>>> output = new Pair(trainingSet, validationSet);
 		return output;
@@ -183,6 +183,16 @@ public class CommonMethods{
 	
 	static boolean equalsDouble(Double a, Double b){
 		return (Double.doubleToLongBits(a) == Double.doubleToLongBits(b));
+	}
+	
+	static int getColumnCount(ArrayList<Double> list, Double value){
+		int count = 0;
+		for(Double d: list){
+				if(CommonMethods.equalsDouble(d,value)){
+					count++;
+				}
+		}
+		return count;
 	}
 	
 }
