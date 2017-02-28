@@ -20,6 +20,8 @@ public class KNN{
 		else{
 			validationSet = CommonMethods.readDatasetFile(validationSetPath, headings);
 		}
+		System.out.println("Training size: " + trainSet.size());
+		System.out.println("Validation size: " + validationSet.size());
 		
 		//create column structure
 		ArrayList<ArrayList<Double>> trainColumns = CommonMethods.createColumnStructure(trainSet);
@@ -222,7 +224,9 @@ public class KNN{
 
 	public static void main(String [] args) {
 	
-		predictClassKNN(true, "student-mat-normalised.csv", null, true, new int[]{5,7,8,9,10,11,12,13,14,15,16,28},32, new int[]{7,14}, 5, "euclidean");
+		//predictClassKNN(true, "student-mat-normalised.csv", null, true, new int[]{5,7,8,9,10,11,12,13,14,15,16,28},32, new int[]{7,14}, 5, "euclidean");
+		predictClassKNN(true, "IrisNumerical.csv", null, true, new int[]{1,2,3,4},5, null, 5, "euclidean");
+		//predictClassKNN(true, "CarDataNumerical.csv", null, true, new int[]{0,1,2,3,4,5},6, null, 5, "euclidean");
 		//{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29}
 		
 	}
