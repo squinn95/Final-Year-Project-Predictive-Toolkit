@@ -20,8 +20,8 @@ public class KNN{
 		else{
 			validationSet = CommonMethods.readDatasetFile(validationSetPath, headings);
 		}
-		System.out.println("Training size: " + trainSet.size());
-		System.out.println("Validation size: " + validationSet.size());
+		//System.out.println("Training size: " + trainSet.size());
+		//System.out.println("Validation size: " + validationSet.size());
 		
 		//create column structure
 		ArrayList<ArrayList<Double>> trainColumns = CommonMethods.createColumnStructure(trainSet);
@@ -64,14 +64,7 @@ public class KNN{
 				classCounts = getClassCounts(neighbourMap);
 			}
 			
-			Double classValue = getMaxClass(classCounts);
-			/*
-			if(o == 50){
-				for(Double a: classCounts.keySet())
-					System.out.println(a + ": " + classCounts.get(a));
-				System.out.println(classValue);
-			}
-			*/
+			Double classValue = CommonMethods.getMaxCount(classCounts);
 			
 			if(CommonMethods.equalsDouble(current.get(current.size()-1),classValue))
 				rightCount++;
@@ -85,7 +78,6 @@ public class KNN{
 		System.out.println(rightCount + " predictions out of " + g + " correct");
 		System.out.println("K nearest neighbours classifier built with " + success + "% accuracy");
 		// System.out.println("total " + g);
-	
 	}
 	
 	private static HashMap<Double, Double> getClassCounts(TreeMap<Double,ArrayList<Double>> neighbourMap){
@@ -187,7 +179,6 @@ public class KNN{
 		return distanceMap;
 	}
 	
-	
 	private static boolean isOneMax(HashMap<Double,Double> classCounts){
 		//sort 
 		//if next index the same as first then there is at least two max therefore return false
@@ -209,28 +200,14 @@ public class KNN{
 		}
 	}
 	
-	private static Double getMaxClass(HashMap<Double,Double> classCounts){
-		//create tree map with comparitor which sorts by value instead of key
-		TreeSet<Map.Entry<Double, Double>> entriesSet = new TreeSet<>(new Comparator<Map.Entry<Double, Double>>(){
-           @Override 
-			public int compare(Map.Entry<Double, Double> me1, Map.Entry<Double, Double> me2) {
-				return me1.getValue().compareTo(me2.getValue());
-			}
-        });
-        entriesSet.addAll(classCounts.entrySet());
-		return entriesSet.last().getKey();
-	}
-	
-
 	public static void main(String [] args) {
 	
 		//predictClassKNN(true, "student-mat-normalised.csv", null, true, new int[]{5,7,8,9,10,11,12,13,14,15,16,28},32, new int[]{7,14}, 5, "euclidean");
-		predictClassKNN(true, "IrisNumerical.csv", null, true, new int[]{1,2,3,4},5, null, 5, "euclidean");
-		//predictClassKNN(true, "CarDataNumerical.csv", null, true, new int[]{0,1,2,3,4,5},6, null, 5, "euclidean");
+		//predictClassKNN(true, "IrisNumerical.csv", null, true, new int[]{1,2,3,4},5, null, 5, "euclidean");
+		predictClassKNN(true, "CarDataNumerical.csv", null, true, new int[]{0,1,2,3,4,5},6, null, 5, "euclidean");
 		//{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29}
 		
 	}
-	
 }
 
 
