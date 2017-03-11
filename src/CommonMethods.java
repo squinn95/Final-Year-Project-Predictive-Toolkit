@@ -53,8 +53,7 @@ public class CommonMethods{
 		}
 		return columns;
 	}
-	
-	
+		
 	protected static ArrayList<ArrayList<Double>> createRowStructure(ArrayList<ArrayList<Double>> columnInput){
 		//for each row, add element at each index to arraylist at that index in columns
 		ArrayList<ArrayList<Double>> rows = new ArrayList<ArrayList<Double>>();
@@ -101,15 +100,6 @@ public class CommonMethods{
 			newDataset.add(newRow);
 		}
 		return newDataset;
-		/*
-		for(ArrayList<Double> a : dataset){ //for each row
-			System.out.print("[");
-			for(Double x : a){
-				System.out.print(x + " ");
-			}
-			System.out.println("]");
-		}
-		*/
 	}
 	
 	protected static ArrayList<ArrayList<Double>> classifyDataset(ArrayList<ArrayList<Double>> dataset, int [] splitPoints) { // this sets up classes in training set, replacing continuous value with class
@@ -146,15 +136,6 @@ public class CommonMethods{
 		else{
 			return dataset;
 		}
-		/*
-		for(ArrayList<Double> a : dataset){ //for each row
-			System.out.print("[");
-			for(Double x : a){
-				System.out.print(x + " ");
-			}
-			System.out.println("]");
-		}
-		*/
 	}
 	
 	protected static ArrayList<Double> toDoubleArrayList(String [] values) {
@@ -172,7 +153,7 @@ public class CommonMethods{
         int rnd;
 		while (iter5.hasNext()) { // loop through rows
 			rnd = ThreadLocalRandom.current().nextInt(1, 11);
-			if (rnd <= 8)
+			if (rnd <= 5)
 				trainingSet.add(iter5.next()); 
 			else
 				validationSet.add(iter5.next());
@@ -195,6 +176,53 @@ public class CommonMethods{
 		return count;
 	}
 	
+	static HashMap<Double,ArrayList<ArrayList<Double>>> getIndexColumnStructuresMap(ArrayList<ArrayList<Double>> trainSet, HashMap<Double,ArrayList<Integer>> indexLocationMap){
+		HashMap<Double,ArrayList<ArrayList<Double>>> indexColumnStructures = new HashMap<Double,ArrayList<ArrayList<Double>>>();
+		for(Double value: indexLocationMap.keySet()){ //for each value associated with this attribute
+			ArrayList<ArrayList<Double>> currentValueRowStructure = new ArrayList<ArrayList<Double>>();
+			for(Integer index: indexLocationMap.get(value)){ //for each row number associated with this value
+				currentValueRowStructure.add(trainSet.get(index));
+			}
+			ArrayList<ArrayList<Double>> currentValueColumnStructure = CommonMethods.createColumnStructure(currentValueRowStructure); //convert to column format
+			indexColumnStructures.put(value,currentValueColumnStructure); //put class, column structure in result
+		}
+		return indexColumnStructures;
+	}
+	
+	static HashMap<Double,ArrayList<Integer>> getColumnValueLocationMap(ArrayList<ArrayList<Double>> trainColumns, int index){
+		ArrayList<Double> targetColumn = trainColumns.get(index); //last column
+		
+		HashMap<Double,ArrayList<Integer>> indexMap = new HashMap<Double,ArrayList<Integer>>();
+		//ArrayList<Double> result = new ArrayList<Double>();
+		
+		for(int i=0; i < targetColumn.size(); i++){
+			Double value = targetColumn.get(i);
+			if(indexMap.containsKey(value)){
+					ArrayList<Integer> current = indexMap.get(value);
+					current.add(i); //add this index to the list of indexes corresponding to this class value
+					indexMap.put(value, current);
+			}
+			else{
+				ArrayList<Integer> current = new ArrayList<Integer>();
+				current.add(i);
+				indexMap.put(value, current);
+			}
+		}
+		
+		return indexMap;
+	}
+	
+	static Double getMaxCount(HashMap<Double,Double> classCounts){
+		//create tree map with comparitor which sorts by value instead of key
+		TreeSet<Map.Entry<Double, Double>> entriesSet = new TreeSet<>(new Comparator<Map.Entry<Double, Double>>(){
+           @Override 
+			public int compare(Map.Entry<Double, Double> x, Map.Entry<Double, Double> y) {
+				return x.getValue().compareTo(y.getValue());
+			}
+        });
+        entriesSet.addAll(classCounts.entrySet());
+		return entriesSet.last().getKey();
+	}
 }
 
 
