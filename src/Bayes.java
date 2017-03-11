@@ -40,9 +40,9 @@ public class Bayes{
 		trainColumns = CommonMethods.createColumnStructure(trainSet);
 		validationColumns = CommonMethods.createColumnStructure(validationSet);
 		
-		HashMap<Double,ArrayList<Integer>> classIndexMap = getClassLocationMap(trainColumns);
+		HashMap<Double,ArrayList<Integer>> classIndexMap = CommonMethods.getColumnValueLocationMap(trainColumns, trainColumns.size()-1);
 		
-		HashMap<Double,ArrayList<ArrayList<Double>>> classColumnStructuresMap = getClassColumnStructuresMap(trainSet, classIndexMap);
+		HashMap<Double,ArrayList<ArrayList<Double>>> classColumnStructuresMap = CommonMethods.getIndexColumnStructuresMap(trainSet, classIndexMap);
 		
 		double totalSize = (double)trainSet.size();
 		
@@ -73,7 +73,7 @@ public class Bayes{
 				classProbs.put(currentClass, prob);
 			}
 			
-			Double classValue = getMaxProb(classProbs);
+			Double classValue = CommonMethods.getMaxCount(classProbs);
 			if(CommonMethods.equalsDouble(currentRow.get(currentRow.size()-1),classValue))
 				rightCount++;
 
@@ -84,69 +84,13 @@ public class Bayes{
 		System.out.println(rightCount + " predictions out of " + g + " correct");
 		System.out.println("Bayes classifier built with " + success + "% accuracy");
 	
-	}
-	
-	static HashMap<Double,ArrayList<ArrayList<Double>>> getClassColumnStructuresMap(ArrayList<ArrayList<Double>> trainSet, HashMap<Double,ArrayList<Integer>> classLocationMap){
-		HashMap<Double,ArrayList<ArrayList<Double>>> classColumnStructures = new HashMap<Double,ArrayList<ArrayList<Double>>>();
-		for(Double x: classLocationMap.keySet()){ //for each class
-			ArrayList<ArrayList<Double>> currentClassRowStructure = new ArrayList<ArrayList<Double>>();
-			for(Integer a: classLocationMap.get(x)){ //for each row number associated with this class
-				currentClassRowStructure.add(trainSet.get(a));
-			}
-			ArrayList<ArrayList<Double>> currentClassColumnStructure = CommonMethods.createColumnStructure(currentClassRowStructure); //convert to column format
-			classColumnStructures.put(x,currentClassColumnStructure); //put class, column struct in result
-		}
-		return classColumnStructures;
-	}
-	
-	static HashMap<Double,ArrayList<Integer>> getClassLocationMap(ArrayList<ArrayList<Double>> trainColumns){
-		ArrayList<Double> classColumn = trainColumns.get(trainColumns.size()-1); //last column
-		
-		HashMap<Double,ArrayList<Integer>> indexMap = new HashMap<Double,ArrayList<Integer>>();
-		//ArrayList<Double> result = new ArrayList<Double>();
-		
-		for(int i=0; i < classColumn.size(); i++){
-			Double value = classColumn.get(i);
-			if(indexMap.containsKey(value)){
-					ArrayList<Integer> current = indexMap.get(value);
-					current.add(i); //add this index to the list of indexes corresponding to this class value
-					indexMap.put(value, current);
-			}
-			else{
-				ArrayList<Integer> current = new ArrayList<Integer>();
-				current.add(i);
-				indexMap.put(value, current);
-			}
-		}
-		
-		return indexMap;
-	}
-	
-	
-	
-	
-	private static Double getMaxProb(HashMap<Double,Double> probCounts){
-		//create tree map with comparitor which sorts by value instead of key
-		TreeSet<Map.Entry<Double, Double>> entriesSet = new TreeSet<>(new Comparator<Map.Entry<Double, Double>>(){
-           @Override 
-			public int compare(Map.Entry<Double, Double> x, Map.Entry<Double, Double> y) {
-				return x.getValue().compareTo(y.getValue());
-			}
-        });
-        entriesSet.addAll(probCounts.entrySet());
-		return entriesSet.last().getKey();
-	}
-	
+	}	
 	
 	public static void main(String [] args) {
-	
 		//predictClassBayes(true, "student-mat-normalised.csv", null, true, new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18},32, new int[]{7,14});
-		predictClassBayes(true, "IrisNumerical.csv", null, true, new int[]{1,2,3,4},5, null);
-		//predictClassBayes(true, "CarDataNumerical.csv", null, true, new int[]{0,1,2,3,4,5},6, null);
-		
-		
+		//predictClassBayes(true, "IrisNumerical.csv", null, true, new int[]{1,2,3,4},5, null);
+		predictClassBayes(true, "CarDataNumerical.csv", null, true, new int[]{0,1,2,3,4,5},6, null);	
 	}
-	
 }
 
 
