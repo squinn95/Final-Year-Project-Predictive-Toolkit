@@ -98,33 +98,6 @@ public class KNN{
 		return classCounts;
 	}
 	
-	private static double euclideanDistance(ArrayList<Double> a, ArrayList<Double> b){ 
-		DecimalFormat df = new DecimalFormat("#.####");
-		double total = 0;
-		for(int i = 0; i < a.size() - 1; i++){
-			double difference = (a.get(i) - b.get(i));
-			total += (difference * difference); //replace 1 with weighting scheme
-		}
-		return Double.parseDouble(df.format(Math.sqrt(total)));
-	}
-	
-	private static double manhattanDistance(ArrayList<Double> a, ArrayList<Double> b){ 
-		DecimalFormat df = new DecimalFormat("#.####");
-		double total = 0;
-		for(int i = 0; i < a.size() - 1; i++){
-			double difference = (a.get(i) - b.get(i));
-			total += Math.abs(difference); 
-		}
-		return total;
-	}
-	
-	private static double calcDistance(ArrayList<Double> a, ArrayList<Double> b, String formula){
-			if(formula.equals("manhattan"))
-				return manhattanDistance(a, b);
-			else
-				return euclideanDistance(a, b);
-	}
-	
 	private static ArrayList<Double> getNRandomListDoubles(ArrayList<Double> inputList, int n){
 		ArrayList<Double> input = new ArrayList<Double>(inputList); //because arraylists passed by reference
 		ArrayList<Double> output = new ArrayList<Double>();
@@ -164,7 +137,7 @@ public class KNN{
 		while (iter7.hasNext()) {
 			ArrayList<Double> trainRow = iter7.next();
 				
-			double dist = calcDistance(valRow, trainRow, formula);
+			double dist = CommonMethods.calcDistance(valRow, trainRow, formula);
 			if(distanceMap.containsKey(dist)){
 				ArrayList<Double> t = distanceMap.get(dist);
 				t.add(trainRow.get(trainRow.size() -1));
@@ -203,8 +176,8 @@ public class KNN{
 	public static void main(String [] args) {
 	
 		//predictClassKNN(true, "student-mat-normalised.csv", null, true, new int[]{5,7,8,9,10,11,12,13,14,15,16,28},32, new int[]{7,14}, 5, "euclidean");
-		//predictClassKNN(true, "IrisNumerical.csv", null, true, new int[]{1,2,3,4},5, null, 5, "euclidean");
-		predictClassKNN(true, "CarDataNumerical.csv", null, true, new int[]{0,1,2,3,4,5},6, null, 5, "euclidean");
+		predictClassKNN(true, "IrisNumerical.csv", null, true, new int[]{1,2,3,4},5, null, 5, "euclidean");
+		//predictClassKNN(true, "CarDataNumerical.csv", null, true, new int[]{0,1,2,3,4,5},6, null, 5, "euclidean");
 		//{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29}
 		
 	}
