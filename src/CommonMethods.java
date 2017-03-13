@@ -223,6 +223,46 @@ public class CommonMethods{
         entriesSet.addAll(classCounts.entrySet());
 		return entriesSet.last().getKey();
 	}
+	
+	static Double getMinCount(HashMap<Double,Double> classCounts){
+		//create tree map with comparitor which sorts by value instead of key
+		TreeSet<Map.Entry<Double, Double>> entriesSet = new TreeSet<>(new Comparator<Map.Entry<Double, Double>>(){
+           @Override 
+			public int compare(Map.Entry<Double, Double> x, Map.Entry<Double, Double> y) {
+				return x.getValue().compareTo(y.getValue());
+			}
+        });
+        entriesSet.addAll(classCounts.entrySet());
+		return entriesSet.first().getKey();
+	}
+	
+	static double euclideanDistance(ArrayList<Double> a, ArrayList<Double> b){ 
+		DecimalFormat df = new DecimalFormat("#.####");
+		double total = 0;
+		for(int i = 0; i < a.size() - 1; i++){
+			double difference = (a.get(i) - b.get(i));
+			total += (difference * difference); //replace 1 with weighting scheme
+		}
+		return Double.parseDouble(df.format(Math.sqrt(total)));
+	}
+	
+	static double manhattanDistance(ArrayList<Double> a, ArrayList<Double> b){ 
+		DecimalFormat df = new DecimalFormat("#.####");
+		double total = 0;
+		for(int i = 0; i < a.size() - 1; i++){
+			double difference = (a.get(i) - b.get(i));
+			total += Math.abs(difference); 
+		}
+		return total;
+	}
+	
+	static double calcDistance(ArrayList<Double> a, ArrayList<Double> b, String formula){
+			if(formula.equals("manhattan"))
+				return manhattanDistance(a, b);
+			else
+				return euclideanDistance(a, b);
+	}
+	
 }
 
 
