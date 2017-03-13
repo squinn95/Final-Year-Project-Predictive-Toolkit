@@ -250,8 +250,8 @@ public class DecisionTree{
 	
 	public static void main(String [] args) {
 	
-		//predictClassDecisionTree(true, "student-mat-normalised.csv", null, true, new int[]{0,1,15,17,18,26},32, new int[]{7,14},"GainRatio");
-		//predictClassDecisionTree(true, "IrisNumerical.csv", null, true, new int[]{1,2,3,4},5, null, "Gain Ratio");
+		predictClassDecisionTree(true, "student-mat-normalised.csv", null, true, new int[]{0,1,15,17,18,26},32, new int[]{7,14},"GainRatio");
+		predictClassDecisionTree(true, "IrisNumerical.csv", null, true, new int[]{1,2,3,4},5, null, "Gain Ratio");
 		predictClassDecisionTree(true, "CarDataNumerical.csv", null, true, new int[]{0,1,2,3,4,5},6, null, "GainRatio");
 		//predictClassDecisionTree(true, "CarDataNumerical.csv", null, true, new int[]{0,1,2,3,4,5},6, null, "Information Gain");
 		
