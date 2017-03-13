@@ -4,6 +4,8 @@ import java.util.*;
 import java.text.DecimalFormat;
 import java.util.concurrent.ThreadLocalRandom;
 
+
+//Rocchio classifier
 public class NearestCentroid{
 	
 	private static void predictClassNearestCentroid(boolean partitionTrainSet, String trainSetPath, String validationSetPath, boolean headings, int [] columnsToUse, int predictionColumn, int [] splitPoints, String formula ) {
