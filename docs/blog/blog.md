@@ -46,7 +46,7 @@ I showed Mark my final version of the project and there was a number of things h
 
 The past two weeks I have been wrapping up the project, the timing of everything worked out well for me because we’re extremely busy doing continuous assessment for our modules these days. I went back and added in unit tests wherever I hadn’t already got them. I have spent a considerable amount of time doing acceptance testing, running different algorithms through the system and trying to break it, uncovering a few minor faults in the UI along the way. Im relatively happy that the application is robust and won’t break under pressure. At this point I’m not going to make any more changes to the codebase, the next step is to start working on the documentation.
 
-# Job Done 20/05/17
+# Job Done (20/05/17)
 
 My final blog entry :) exams are just over and the project expo is next week. I got in contact with a data scientist who works in Citibank and have made plans to meet her next week before my presentation to get her to evaluate my application. Data scientists are the intended end users of my application so i’m really curious to see how useful she thinks my application would be in a commercial environment. I have a lot of my documentation done so I just need to finish that off for the final submission on monday and prepare some good use cases for my presentation. Overall I’m happy with the way the project turned out but there is so many more features I wish I could’ve included.
 
