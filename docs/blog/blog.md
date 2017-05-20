@@ -1,52 +1,52 @@
-# 14/10/16
+# The Idea (14/10/16)
 
 After spending last summer working in business intelligence at SAP and getting exposure to predictive analytics, big data and reporting, I have decided that my future will be in analytics. The first step in my journey is to do a predictive analytics based final year project. I’m excited at the prospect of seeing what I can predict and attempting to solve a real world problem. I have spent a lot of time over the last few weeks looking for datasets and reading about various analytics projects and problems to see what I should attempt to solve and I think one area where there is definitely insights to be unearthed is economics. Specifically I have set myself the challenge of attempting to see if I can train a predictive model to predict how likely a country is to enter into an economic downturn. I would do this by looking at economic data for a country over a period of a few years to see if any particular trends are highly correlated with impending economic recession. I would train the model by gathering time-series data in the years leading up to all previous known economic recessions in the developed world. 
 
-# 28/10/16
+# Project Proposal (28/10/16)
 
 Last week I presented my project proposal to charlie daly and donal fitzpatrick. They liked the idea of an analytics project but they raised several valid concerns which have made me think about things in a different light. They alluded to the fact that this largely amounted to a research project rather than a software engineering one, and although it would still be a valid project, the marking scheme of the final year project is more geared towards pure software engineering projects. This might make it harder for me to actually score well down the line. They were also critical of my choice of trying to predict the likelihood of a country entering into economic recession. They said that there was a reason that this problem has gone unsolved. It’s difficult to actually collect this kind of data. The lack of previous recessions and the influence of extraordinary events in instigating recession also makes prediction more difficult.
 
-# 11/11/16
+# Change Of Plan (11/11/16)
 
 The feedback from my project proposal was that my original idea was a bit too research focused and the likelihood of achieving success was relatively low. Based on these two reasons I have decided to significantly change the focus of my project. Rather than attempt to solve a problem using analytics I will create a software application which can be used for analysis. More specifically I will attempt to create a tool which allows a data scientist to rapidly configure and run predictive algorithms on a dataset. This is a common task in data science, figuring out which algorithm performs best for a given dataset as no two datasets are the same. My aim is to provide a tool which will allow a data scientist to do this without writing a single line of code. I will build in a front end and some reporting on the results of the algorithms. 
 
-# 25/11/16
+# Functional Spec (25/11/16)
 
 I submitted my functional spec this week. Although I have decided to build an application instead of the original research orientated project, I won’t leave it out all together. Instead I will keep the application as the main focus and use the economic prediction as a good use case to test the application on when i’m finished. I had a lot of architectural decisions to make over the last few weeks as to how exactly I was going to build the application. I decided the application is going to be an in-memory application with no database, as the application is designed for rapid analysis. I am going to code four classification algorithms from scratch and not use any libraries. I will code the back end and algorithms in java and use a RESTful interface. I’m not sure how exactly I will go about the front end just yet or what format it will take but I know it will be a browser based application. I also included a contingency architecture for a simpler UI based entirely in java, just in case things don’t go to plan developing the restful architecture. I have very limited experience with API’s and front end development so this is where I see the greatest potential risk.
 
-# 9/12/16
+# Coding at last, K Nearest Neighbours (9/12/16)
 
 Since my last blog I have started development of the application, I now have a working K nearest neighbours algorithm. The algorithm at present has only one default configuration so I need to add options to allow the user to select alternative algorithms for calculating distance between neighbours and varying the number of neighbours considered. I was familiar with the KNN algorithm already before I started coding so I already had an idea of the methods I would have to write to get it going. I was really surprised by how much code and effort had to be put into reading in the CSV format data sets and figuring out the best data structures to use for running the algorithms on the sets. 
 
-# 27/01/17
+# Christmas, Naive Bayes & Decision Tree (27/01/17)
 
 I decided to use the weeks off before christmas to focus on my FYP and leave the exam study until after christmas. I made significant headway with my algorithms. Since my last blog I have improved my KNN algorithm to the point where I can now vary the parameters in a meaningful way. I completed the Naive bayes algorithm in just a few days, I was surprised at how simple the algorithm was to implement compared to KNN. I added a function to allow the user to partition the attribute they are predicting into classes if the attribute is continuous valued. In the past week since exams finished I have managed to get the decision tree algorithm working, this is by far the hardest one to get going so far. The recursive algorithm to build the decision tree is probably the trickiest bit of code i’ve ever written. But the algorithm seems to be very accurate, i’m testing all the algorithms on datasets from kaggle and UCI machine learning repository. I’m picking ones which have very strong correlations so that I know straight away if the algorithm is not working correctly. 
 
-# 10/02/17
+# Rocchio, Back-end finished (10/02/17)
 
 In the last couple of weeks I completed my final algorithm, the Rocchio algorithm. I had already coded a lot of the algorithms I needed for this in the other algorithms. The rocchio algorithm is a slightly less well known one than the others I chose, it’s used a lot in search systems for text classification. It works by calculating the centroids of each class given a distance formula. It then classifies records by selecting the class with the nearest centroid using the same distance formula. I’ve done a significant amount of refactoring since finishing rocchio. I’m trying to make the algorithms work in a more consistent manner and remove any duplicate code. I decided to make a “common methods” class which contains all the functions which are used by more than one algorithm as well as all the functions needed to read in and render the csv. Slightly worried about how much of that dataset processing code i’ll be able to use in the finished project as I won’t be reading the csv straight into the application, it will be coming through a web UI. The pressure is starting to come on now because I basically only have a back-end done for my system and i’m not sure how much work will be involved in the REST API.
 
-# 23/02/17
+# Spring Boot & The API (23/02/17)
 
-After exploring my options and doing a bit of research I decided to use the spring framework to create my RESTful UI. Spring boot contains an embedded tomcat server so spring boot was the best option I could see for the project. I was up and running fairly quickly, spring has good documentation guides. I had to move all my existing code into a spring project. After going through several examples and tutorials online I figured out the architecture I need to use. I will have a service class which controls the state of the program and calls the algorithms. I’ll have a controller class which specifies how the application will handle the REST calls made from my UI. Springs rest controller uses jackson to automatically convert java objects to JSON objects. So I will also have to define model classes to encapsulate the information I will be passing over the API.
+After exploring my options and doing a bit of research I decided to use the spring framework to create my RESTful API. Spring boot contains an embedded tomcat server so spring boot was the best option I could see for the project. I was up and running fairly quickly, spring has good documentation guides. I had to move all my existing code into a spring project. After going through several examples and tutorials online I figured out the architecture I need to use. I will have a service class which controls the state of the program and calls the algorithms. I’ll have a controller class which specifies how the application will handle the REST calls made from my UI. Springs rest controller uses jackson to automatically convert java objects to JSON objects. So I will also have to define model classes to encapsulate the information I will be passing over the API.
 
-# 10/03/17
+# API Complete (10/03/17)
 
 In the past two weeks I have completely finished my REST API. The actual methods needed to handle API calls were not hard to implement. Most the work was actually in re-structuring my algorithms to take the new model classes as parameters. So I now have a “Run configuration” model which contains all the information needed to run an algorithm and is passed to the back end using a POST. The dataset to be used is passed to the back end using the “dataset config” model and is processed and stored to be used by the algorithms. The output of an algorithm's execution is contained in a “Run Result”, which can be retrieved using a GET. Spring contains methods to make rest calls from the back end. So I was able to build and extensively test the API in java before I attempt to make calls to it from a JavaScript UI. I have decided to use a dashboard style front end.
 
-# 24/03/17
+# The User Interface (24/03/17)
 
 Since my last blog I’ve moved on from the API and done a lot of work on creating my user interface. I used bootstrap styling for the webpages and I developed the javascript functions and static html in parallel and then combined them at the end. I met with a user interaction designer to get his opinion on my interface and he was quickly able to point out some major improvements which could be made to the flow of my application. Suggesting that I should adapt it to allow multiple algorithms to be ran at once rather than one at a time. And to incorporate a summary graph on my results page as well as individual results. I am almost finished making these changes and intend to meet my supervisor next week to get his opinion of the final version of the application.
 
-# 7/04/17
+# Improvements & Changes (7/04/17)
 
 I showed Mark my final version of the project and there was a number of things he wasn’t happy with. I guess I was a bit naive to think he would be as impressed with it as I am. There was a few key changes to the user interface he was adamant on including, this included replacing some text boxes with dropdowns and adding a paste function to speed up configuration when adding multiple algorithms. We also decided that an adjustment needed to be made to the back-end. So I have now included a function which will allow the application to use text based data sets, up to this point all datasets had to be in numeric format so the application is now much more flexible with the datasets it can use. I also added a hamming distance formula to the KNN and Rocchio algorithms so they can now work on categorical data. 
 
-# 21/04/17
+# Wrapping Up the Code & Testing (21/04/17)
 
 The past two weeks I have been wrapping up the project, the timing of everything worked out well for me because we’re extremely busy doing continuous assessment for our modules these days. I went back and added in unit tests wherever I hadn’t already got them. I have spent a considerable amount of time doing acceptance testing, running different algorithms through the system and trying to break it, uncovering a few minor faults in the UI along the way. Im relatively happy that the application is robust and won’t break under pressure. At this point I’m not going to make any more changes to the codebase, the next step is to start working on the documentation.
 
-# 20/05/17
+# Job Done 20/05/17
 
 My final blog entry :) exams are just over and the project expo is next week. I got in contact with a data scientist who works in Citibank and have made plans to meet her next week before my presentation to get her to evaluate my application. Data scientists are the intended end users of my application so i’m really curious to see how useful she thinks my application would be in a commercial environment. I have a lot of my documentation done so I just need to finish that off for the final submission on monday and prepare some good use cases for my presentation. Overall I’m happy with the way the project turned out but there is so many more features I wish I could’ve included.
 
