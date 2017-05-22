@@ -1,1 +1,1 @@
-All of your source code (and other program resources) should be placed in this sub-directory.
+All of my project code is contained in the code.zip file.
