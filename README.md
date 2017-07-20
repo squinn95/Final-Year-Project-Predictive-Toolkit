@@ -9,13 +9,13 @@ This application allows the user to upload csv format data sets and then configu
 <a href="/docs/video-walk-through">Video Demo</a><br/>
 
 ![desc](/docs/Screenshots/image12.png)
-</br>
+<br/>
 ![desc](/docs/Screenshots/image6.png)
-</br>
+<br/>
 ![desc](/docs/Screenshots/image19.png)
-</br>
+<br/>
 ![desc](/docs/Screenshots/image23.png)
-</br>
+<br/>
 ![desc](/docs/Screenshots/image20.png)
-</br>
+<br/>
 ![desc](/docs/Screenshots/image25.png)
