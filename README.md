@@ -5,7 +5,9 @@ This application allows the user to upload csv format data sets and then configu
 
 <!-- ![image-title-here](/docs/Screenshots/image6.png){:height="700px" width="400px"} -->
 
-```HTML
+{::nomarkdown}
+
+<!-- HTML CODE-->
 
 <div>
 <br>
@@ -26,87 +28,9 @@ This application allows the user to upload csv format data sets and then configu
 </div>
 
 
-```
+{:/}
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-''
