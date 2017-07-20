@@ -5,6 +5,7 @@ This application allows the user to upload csv format data sets and then configu
 
 <!-- ![image-title-here](/docs/Screenshots/image6.png){:height="700px" width="400px"} -->
 
+<div>
 <a href="url"><img src="/docs/Screenshots/image6.png" align="left" height="450" width="800" ></a>
-
-screenshots
+<a href="url"><img src="/docs/Screenshots/image12.png" align="left" height="450" width="800" ></a>
+</div>
