@@ -6,7 +6,7 @@ This application allows the user to upload csv format data sets and then configu
  ![image-title-here](/docs/Screenshots/image6.png | width=100)
 
 
-<!--
+<body>
 
 <div>
 <br>
@@ -26,7 +26,8 @@ This application allows the user to upload csv format data sets and then configu
 <a href="url"><img src="/docs/Screenshots/image25.png" align="left" height="311" hspace="10" width="550" ></a>
 </div>
 
--->
+
+</body>
 
 
 
