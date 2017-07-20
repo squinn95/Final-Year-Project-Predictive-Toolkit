@@ -14,8 +14,8 @@ This application allows the user to upload csv format data sets and then configu
 <br/>
 
 <div>
-<a href="url"><img src="/docs/Screenshots/image6.png" align="left" height="311" hspace="10" width="550" ></a>
-<a href="url"><img src="/docs/Screenshots/image12.png" align="left" height="311" hspace="10" width="550" ></a>
+<a href="url"><img src="/docs/Screenshots/image6.png" align="left" height="311" hspace="10" width="500" ></a>
+<a href="url"><img src="/docs/Screenshots/image12.png" align="left" height="311" hspace="10" width="500" ></a>
 </div>
 
 <br/>
