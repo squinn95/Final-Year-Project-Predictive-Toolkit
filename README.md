@@ -8,7 +8,9 @@ This application allows the user to upload csv format data sets and then configu
 <a href="/docs/blog">Development Blog</a><br/>
 <a href="/docs/video-walk-through">Video Demo</a><br/>
 
+[desc](/docs/Screenshots/image12.png)
 
+<!--
 <body>
 
 <br/>
@@ -36,4 +38,76 @@ This application allows the user to upload csv format data sets and then configu
 
 
 </body>
+-->
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+|
+
+
+
+
 
