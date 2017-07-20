@@ -29,8 +29,7 @@ This application allows the user to upload csv format data sets and then configu
 
 </body>
 
-
-                |
+|
                 
                 
                 
@@ -97,28 +96,7 @@ This application allows the user to upload csv format data sets and then configu
                 
                 
                 
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                |
+|
 
 
 
